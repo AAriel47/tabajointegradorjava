@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-public class Pronosticodeportivo {
+	public class Pronosticodeportivo {
 	static boolean permi;
 	static String participantes;
 	static String zona;
@@ -65,14 +65,16 @@ public class Pronosticodeportivo {
 	static String opcion;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Scanner teclado = new Scanner(System.in);
+	Scanner teclado = new Scanner(System.in);
+	while(true) {
 		System.out.println("PRONOSTICO COPA DEL MUNDO 2022 - FECHA DEL PRONOSTICO: "+LocalDate.now()+" "+LocalTime.now());
 		System.out.println("POR CADA ACIERTO UN PUNTO");
 		System.out.println("SELECCIONE UNA ACTIVIDAD: ");
 		System.out.println("a. Realizar un pronostico - b. Ver los equipos participantes");
 		System.out.println("c. Ingresar los resultados finales de los partidos");
 		System.out.println("d. Ver los ganadores");
-		opcion = teclado.nextLine().substring(0,1).toLowerCase();
+		System.out.println("e. Salir");
+		opcion = teclado.nextLine().toLowerCase();//.substring(0,1).toLowerCase();
 		switch(opcion) {
 		case "a": 
 				System.out.println(" ");
@@ -176,6 +178,8 @@ public class Pronosticodeportivo {
 						}
 					}
 				}
+				System.out.println("PRESIONE LA TECLA A Y LUEGO ENTER PARA CONTINUAR");
+				teclado.next();
 			}
 			catch(IOException e) {
 				System.err.print(e);
@@ -183,7 +187,8 @@ public class Pronosticodeportivo {
 			break;
 		case "c": 
 			//******************
-			System.out.println("SELECCIONE LA FASE POR FAVOR");
+			while(true) {
+			/*System.out.println("SELECCIONE LA FASE POR FAVOR");
 			System.out.println("1. FASES DE GRUPOS - 2. OCTAVOS DE FINAL - 3. CUARTOS DE FINAL - 4. SEMI-FINAL - 5. FINAL");
 			fasopc=teclado.next().toLowerCase().substring(0,1);
 			switch (fasopc) {
@@ -199,8 +204,29 @@ public class Pronosticodeportivo {
 					break;
 			default: System.out.println("OPCION NO VALIDA, VUELVA A INGRESAR LA FASE POR FAVOR");
 					break;
+			}*/
+				System.out.println("SELECCIONE LA FASE POR FAVOR");
+				System.out.println("1. FASES DE GRUPOS - 2. OCTAVOS DE FINAL - 3. CUARTOS DE FINAL - 4. SEMI-FINAL - 5. FINAL");
+				fasopc=teclado.next().toLowerCase().substring(0,1);
+				if ("1".equals(fasopc)) {
+					resulfase = fases[0];
+					break;
+				}else if("2".equals(fasopc)){
+					resulfase = fases[1];
+					break;
+				}else if("3".equals(fasopc)) {
+					resulfase = fases[2];
+					break;
+				}else if("4".equals(fasopc)){
+					resulfase = fases[3];
+					break;
+				}else if("5".equals(fasopc)) {
+					resulfase = fases[4];
+					break;
+				}else {System.out.println("OPCION NO VALIDA, VUELVA A INGRESAR LA FASE POR FAVOR");
+						continue;
+				}
 			}
-			
 			System.out.println("ZONAS A, B, C, D, E, F, G, H");
 			System.out.println(" ");
 			System.out.println("Seleccione una zona por favor: ");
@@ -235,7 +261,7 @@ public class Pronosticodeportivo {
 			}
 			System.out.println("Zona: "+ zona + " "+((Arrays.toString(seleccion))));
 			System.out.println("SELECCIONE: a. PRIMER PARTIDO - b. SEGUNDO PARTIDO");
-			resopc = teclado.next().substring(0,1);
+			resopc = teclado.next().toLowerCase().substring(0,1);
 			switch (resopc) {
 			case "a" :
 						try {
@@ -345,7 +371,7 @@ public class Pronosticodeportivo {
 						}
 					}
 				}
-				System.out.println(resultadofinal);
+				//System.out.println(resultadofinal);
 				rep=0;
 				List resultados = new ArrayList();
 				for(int fi=0;fi<resultadofinal.size();fi++) {
@@ -356,17 +382,18 @@ public class Pronosticodeportivo {
 							rep++;
 						}
 					}
-					if(resultados.contains(repnom+rep)) {
+					if(resultados.contains(repnom+" "+rep)) {
 						;
 					}else {
-						resultados.add(repnom+rep);
+						resultados.add(repnom+" "+rep);
 					}
 					rep=0;
 				}
 				//}
 				String grabarnombres = resultados.toString();
 				System.out.println(resultados);
-
+				System.out.println("PRESIONE LA TECLA A Y LUEGO ENTER PARA CONTINUAR");
+				teclado.next();
 				try {
 					if(!Files.exists(ganador)) {
 						Files.createFile(ganador);
@@ -377,13 +404,19 @@ public class Pronosticodeportivo {
 					System.err.print(e);
 				}
 				break;
-			
-		default: System.out.println("OPCION NO VALIDA, SELECCIONE OTRA");
-		teclado.close();
+		case "e":
+				break;
+		default: 
+				System.out.println("OPCION NO VALIDA, SELECCIONE OTRA");
 		}
-		
+		System.out.println(" ");
+		if("e".equals(opcion)) {
+			teclado.close();
+			break;
+		}
 	}
-
+}
+	
 	public static boolean control(String[]primerPartido, String fecha) {
 		//carfec = LocalDate.format(DateTimeFormatter.ofPattern("d/M/yyyy")).toString();	
 		carfec1 = primerPartido[0]+" "+primerPartido[2];
@@ -417,7 +450,11 @@ public class Pronosticodeportivo {
 							System.out.println("siiiii");
 						}
 					
+				}else {
+					permi=true;
+					System.out.println("siiiii");
 				}
+			
 			}
 return permi;
 }	
