@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.Arrays;
 
 public class constructor {
+	
 	static boolean graba = true;
 	String datos1;
 	String copiared;
@@ -35,7 +36,6 @@ public class constructor {
 	Path reducida = Paths.get("resullista.csv");
 	Path pronosreducido = Paths.get("pronosredu.csv");
 	static Path resultados = Paths.get("resultado.csv");
-
 	
 //constructor para grabar los resultados oficiales del primer partido
 public constructor(String[] primerPar, String fases, String zona) {
@@ -112,7 +112,7 @@ public constructor(String[] primerPar, String[] segundoPar, String nombre, Strin
 	this.segundoPar[3]=segundoPar[3];
 }
 
-
+//METODO PARA GRABAR LOS PRONOSTICOS
 public void grabar() {
 	String grabarpronos[] = new String[12];
 	grabarpronos[0] = this.nombre;
@@ -141,8 +141,7 @@ public void grabar() {
 		}
 		Files.writeString(pronostico, datos);
 
-		//.............
-		//pronosredu.csv
+		//CREO EL ARCHIVO DE PRONOSTICO REDUCIDO - QUE USO COMO TABLA INDICE
 		
 		try {
 			if (!Files.exists(pronosreducido)) {
@@ -163,10 +162,6 @@ public void grabar() {
 			System.err.print(e);
 		}
 		
-		
-		//---------------
-		
-		
 	}
 	catch(IOException e) {
 		System.err.print(e);
@@ -183,9 +178,7 @@ public void grabarfechas() {
 		}
 		if (null!=basefec) {
 			basefec=basefec+","+primerPar[0]+" "+primerPar[1]+", "+mfec;
-			//basefec=basefec+", "+mfec+", "+primerPar[0]+", "+primerPar[1];
 		}else {
-			//basefec = mfec+", "+primerPar[0]+", "+primerPar[1];
 			basefec = primerPar[0]+" "+primerPar[1]+", "+mfec;
 		}
 		Files.writeString(fechasPar, basefec);
@@ -196,7 +189,7 @@ public void grabarfechas() {
 
 }
 
-
+//METODO PARA GRABAR LOS RESULTADOS DE LOS PARTIDOS
 public void grabarfases() {
 	String grabaresultado[] = new String[6];
 	grabaresultado[0] = this.resulfase;
@@ -206,21 +199,15 @@ public void grabarfases() {
 	grabaresultado[4] = this.primerPar[3];
 	grabaresultado[5] = this.zona;
 
-
 	datos1 = Arrays.toString(grabaresultado);		
 	try {
 		for (String leerlineas : Files.readAllLines(resultados)) {
 			resgrupos = String.valueOf(leerlineas);
 			}
-		System.out.println("sssie"+resgrupos);
 		if (null!=resgrupos) {
 			String gruposres[] = resgrupos.split(",");
-			//int con = 0;
-			//int con1 = 1;
-			//int con3 = 3;
-			//String borrar = 
+
 			for(int i = 0; i<gruposres.length;i++) {
-				//System.out.println(grabaresultado[0]+"--"+(gruposres[con].length()))+grabaresultado[3]+"--"+(gruposres[con3]));
 
 				if ((grabaresultado[0].equals(gruposres[con]))&&((" "+grabaresultado[1]).equals(gruposres[con1]))&&((" "+grabaresultado[3]).equals(gruposres[con3]))) {
 					System.out.println("EL PARTIDO YA FUE CARGADO");
@@ -232,8 +219,10 @@ public void grabarfases() {
 				con1 = con1 + 6;
 				con3 = con3 + 6;
 				if (con3>gruposres.length) {
-					System.out.println(con3+"-dg"+gruposres.length);
+					System.out.println(con3+"-dg"+gruposres.length+"no es igual");
+					graba = true;
 					break;
+					
 				}
 
 			}
@@ -243,15 +232,13 @@ public void grabarfases() {
 
 			}
 			
-		}else {
+		}else {graba = true;
+				System.out.print("no existe");
 				datos1 = datos1.substring(1, datos1.length()-1);
 		}
 		if (graba) {
 			Files.writeString(resultados, datos1);
 			System.out.println("RESULTADOS DE ZONA DE GRUPOS GUARDADOS");
-			graba = false;
-			//.............
-			//resullista.csv
 			
 			try {
 				if (!Files.exists(reducida)) {

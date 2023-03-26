@@ -1,10 +1,14 @@
 package pronosticodeportivo;
-	import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+//
+//import java.text.ParseException;
+//import java.text.SimpleDateFormat;
+//
 import java.nio.file.Path;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -29,6 +33,8 @@ import java.time.format.DateTimeFormatter;
 	static String contenido2;
 	static String ganadores;
 	static String nombregana;
+	static String gol;
+	static int gol2;
 	
 	static String fecact;
 	static boolean permitir;
@@ -63,20 +69,25 @@ import java.time.format.DateTimeFormatter;
 	static String[] primerPartido = new String[4];
 	static String[] segundoPartido = new String[4];
 	static String opcion;
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args){
+	//	
+	//	SimpleDateFormat format = new SimpleDateFormat("MM, dd, yyyy");	
+	//
 	Scanner teclado = new Scanner(System.in);
 	while(true) {
 		System.out.println("PRONOSTICO COPA DEL MUNDO 2022 - FECHA DEL PRONOSTICO: "+LocalDate.now()+" "+LocalTime.now());
 		System.out.println("POR CADA ACIERTO UN PUNTO");
 		System.out.println("SELECCIONE UNA ACTIVIDAD: ");
-		System.out.println("a. Realizar un pronostico - b. Ver los equipos participantes");
+		System.out.println("a. Realizar un pronostico");
+		System.out.println("b. Ver los equipos participantes");
 		System.out.println("c. Ingresar los resultados finales de los partidos");
 		System.out.println("d. Ver los ganadores");
 		System.out.println("e. Salir");
-		opcion = teclado.nextLine().toLowerCase();//.substring(0,1).toLowerCase();
+		opcion = teclado.nextLine().toLowerCase();
 		switch(opcion) {
 		case "a": 
+				//Bloque de sentencias para realizar el pronostico
+			
 				System.out.println(" ");
 				System.out.println("Ingrese el nombre del participante:");
 				nombre = teclado.nextLine();
@@ -87,7 +98,7 @@ import java.time.format.DateTimeFormatter;
 				try {
 					if(!Files.exists(partidos)){
 						Files.createFile(partidos);
-						System.out.println("POR FAVOR INGRESE LOS GRUPOS EN ZONA.CVS");
+						System.out.println("POR FAVOR INGRESE LOS GRUPOS EN ZONA.CVS");//EL ARCHIVO ZONA.CVS CONTIENE LOS GRUPOS DE LOS EQUIPOS
 					}
 	
 					for(String linea : Files.readAllLines(partidos)){
@@ -119,13 +130,44 @@ import java.time.format.DateTimeFormatter;
 				System.out.println(primerPartido[0]);
 				System.out.println("Goles: ");
 				primerPartido[1]=teclado.next();
+				
+				try {
+					gol=primerPartido[1];
+					gol2 = Integer.parseInt(gol);
+				}
+				catch (NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}				
+				
 				primerPartido[2]=seleccion[1];
 				System.out.println(primerPartido[2]);
 				System.out.println("Goles: ");
 				primerPartido[3]=teclado.next();
 				
+				try {
+					gol=primerPartido[3];
+					gol2=Integer.parseInt(gol);
+				}
+				catch(NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}				
+				//LA FECHA LA USO PARA SABER SI TODAVIA SE PUEDE HACER UNA APUESTA, SE PUEDE HASTA EL DIA DEL JUEGO
 				System.out.println("Fecha del partido: dd/mm/yyyy");
 				fecha = teclado.next();
+				//USO EL OBJETO F PARA VALIDAR LA FECHA
+				ValidarF f = new ValidarF();
+				try {
+					f.Validar(fecha);
+				}
+				catch(ControlFecha ex) {
+					System.out.print("ERROR AL INGRESAR LA FECHA");
+					break;
+				}				
+				//EL PROCEDIMIENTO CONTROL ES EL QUE VERIFICA QUE SE PUEDA REALIZAR LA APUESTA, CONTROLA QUE NO SE REALIZA LA APUESTA SI EL PARTIDO YA SE JUGO
 				permitir = control(primerPartido, fecha);
 				
 				System.out.println("SEGUNDO PARTIDO");
@@ -133,30 +175,63 @@ import java.time.format.DateTimeFormatter;
 				System.out.println(segundoPartido[0]);
 				System.out.println("Goles: ");
 				segundoPartido[1]=teclado.next();
+				
+				try {
+					gol=segundoPartido[1];
+					gol2=Integer.parseInt(gol);
+				}
+				catch(NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}				
+				
 				segundoPartido[2]=seleccion[3];
 				System.out.println(segundoPartido[2]);
 				System.out.println("Goles: ");
 				segundoPartido[3] = teclado.next();
 
+				try {
+					gol=segundoPartido[3];
+					gol2=Integer.parseInt(gol);
+				}
+				catch(NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}				
+				
 				System.out.println("Fecha del partido: dd/mm/yyyy");
 				fecha2 = teclado.next();
-				permitir1=control(segundoPartido, fecha2);		
-				System.out.println("llego"+permitir+permitir1);
+				
+				ValidarF f2 = new ValidarF();
+				try {
+					f2.Validar(fecha2);
+				}
+				catch(ControlFecha ex) {
+					System.out.print("ERROR AL INGRESAR LA FECHA");
+					break;
+				}
+				
+				//EL PROCEDIMIENTO CONTROL ES EL QUE VERIFICA QUE SE PUEDA REALIZAR LA APUESTA, CONTROLA QUE NO SE REALIZA LA APUESTA SI EL PARTIDO YA SE JUGO
+				permitir1=control(segundoPartido, fecha2);	
+				//OBJETOS QUE PERMITE LA GRABACIÓN DE DATOS
 				if (permitir&&permitir1) {
 					constructor cons1 = new constructor(nombre, zona, primerPartido, segundoPartido);
 					cons1.grabar();
-				}else if(permitir) {System.out.println("permitir");
+				}else if(permitir) {//System.out.println("permitir");
 					constructor primerpartido = new constructor(segundoPartido,nombre, zona, primerPartido);
 					primerpartido.grabar();
-				}else if(permitir1) {System.out.println("permitir1");
+				}else if(permitir1) {//System.out.println("permitir1");
 					constructor segundopartido = new constructor(primerPartido, segundoPartido, nombre,zona);
 					segundopartido.grabar();
 				}
 				break;
 		case "b":
+			//BLOQUE QUE PERMITE TENER UN LISTADO DE LOS EQUIPOS POR ZONA
 			try {
 				if (!Files.exists(partidos)) {
-					System.out.println("No se ha creado el archivo zonas.csv");
+					System.out.println("No se ha creado el archivo zonas.csv".toUpperCase());
 				}else {
 					for (String leerlineas : Files.readAllLines(partidos)) {
 					participantes = String.valueOf(leerlineas);
@@ -164,7 +239,7 @@ import java.time.format.DateTimeFormatter;
 					
 					String listado[]= participantes.split(";");
 					if (null==participantes) {
-						System.out.println("No se han cargado los equipos participantes");
+						System.out.println("No se han cargado los equipos participantes".toUpperCase());
 					}else {
 						int imp = 1;
 						for(int i=0; i<listado.length;i++) {
@@ -178,50 +253,27 @@ import java.time.format.DateTimeFormatter;
 						}
 					}
 				}
-				System.out.println("PRESIONE LA TECLA A Y LUEGO ENTER PARA CONTINUAR");
+				System.out.println("PRESIONE UNA TECLA PARA CONTINUAR");
 				teclado.next();
+				System.out.println(" ");
+
 			}
 			catch(IOException e) {
 				System.err.print(e);
 			}
 			break;
 		case "c": 
-			//******************
+			
+			//BLOQUE QUE PERMITE EL INGRESO DE LOS RESULTADOS DE LOS PARTIDOS PARA CONTROLAR OFICIALMENTE LAS APUESTAS
 			while(true) {
-			/*System.out.println("SELECCIONE LA FASE POR FAVOR");
-			System.out.println("1. FASES DE GRUPOS - 2. OCTAVOS DE FINAL - 3. CUARTOS DE FINAL - 4. SEMI-FINAL - 5. FINAL");
-			fasopc=teclado.next().toLowerCase().substring(0,1);
-			switch (fasopc) {
-			case "1": resulfase = fases[0];
-					break;
-			case "2": resulfase = fases[1];
-					break;
-			case "3": resulfase = fases[2];
-					break;
-			case "4": resulfase = fases[3];
-					break;
-			case "5": resulfase = fases[4];
-					break;
-			default: System.out.println("OPCION NO VALIDA, VUELVA A INGRESAR LA FASE POR FAVOR");
-					break;
-			}*/
+
 				System.out.println("SELECCIONE LA FASE POR FAVOR");
-				System.out.println("1. FASES DE GRUPOS - 2. OCTAVOS DE FINAL - 3. CUARTOS DE FINAL - 4. SEMI-FINAL - 5. FINAL");
-				fasopc=teclado.next().toLowerCase().substring(0,1);
+				//System.out.println("1. FASES DE GRUPOS - 2. OCTAVOS DE FINAL - 3. CUARTOS DE FINAL - 4. SEMI-FINAL - 5. FINAL");
+				System.out.println("1. FASES DE GRUPOS ");
+
+				fasopc=teclado.next().toLowerCase();
 				if ("1".equals(fasopc)) {
 					resulfase = fases[0];
-					break;
-				}else if("2".equals(fasopc)){
-					resulfase = fases[1];
-					break;
-				}else if("3".equals(fasopc)) {
-					resulfase = fases[2];
-					break;
-				}else if("4".equals(fasopc)){
-					resulfase = fases[3];
-					break;
-				}else if("5".equals(fasopc)) {
-					resulfase = fases[4];
 					break;
 				}else {System.out.println("OPCION NO VALIDA, VUELVA A INGRESAR LA FASE POR FAVOR");
 						continue;
@@ -234,7 +286,7 @@ import java.time.format.DateTimeFormatter;
 			try {
 				if(!Files.exists(resultados)){
 					Files.createFile(resultados);
-					System.out.println("POR FAVOR INGRESE LOS GRUPOS EN RESULTADO.CVS");
+					System.out.println("ARCHIVO CREADO, YA PUEDE INGRESAR LOS GRUPOS EN RESULTADO.CVS");
 				}else {
 					for(String selector : Files.readAllLines(resultados)) {
 						resul1 = String.valueOf(selector);
@@ -275,15 +327,15 @@ import java.time.format.DateTimeFormatter;
 				
 						System.out.println("INGRESE LA FECHA: dd/mm/aaaa");
 						fecha=teclado.next();
-						/* 
-						 *fecha1 = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/M/yyyy"));
-						System.out.println(fecha1);
-						LocalDate dia = LocalDate.parse("30/02/2023", DateTimeFormatter.ofPattern("d/M/yyyy"));
-						if (fecha1.isAfter(dia)) {
-							System.out.println("No se puede ingresar mas");
-						}else {
-							System.out.println("Si se puede ingresar");
-						}*/
+						//VALIDACION DE LA FECHA (FORMATO FECHA)
+						ValidarF f3 = new ValidarF();
+						try {
+							f3.Validar(fecha);
+						}
+						catch(ControlFecha ex) {
+							System.out.print("ERROR AL INGRESAR LA FECHA");
+							break;
+						}							
 						
 						System.out.println(" ");
 						System.out.println("PRIMER PARTIDO");
@@ -295,14 +347,14 @@ import java.time.format.DateTimeFormatter;
 						System.out.println(primerPartido[2]);
 						System.out.println("Goles: ");
 						primerPartido[3]=teclado.next();
-						//constructor cons2 = new constructor(primerPartido, resulfase, zona);
+						//GRABO LOS RESULTADOS DEL PARTIDO Y CREO OTRO ARCHIVO RESUMIDO PARA CONTROL DEL PROCESO
 						constructor cons2 = new constructor(primerPartido, resulfase, zona);
 						constructor cons4 = new constructor(fecha, primerPartido);
 						cons4.grabarfechas();
 						cons2.grabarfases();
 						break;
 			case "b" :
-				
+						//BLOQUE DE SENTENCIAS IDEM AL ANTERIOR PERO PARA EL SEGUNDO PARTIDO
 						try {
 							if (!Files.exists(fechasPar)) {
 								Files.createFile(fechasPar);
@@ -315,6 +367,15 @@ import java.time.format.DateTimeFormatter;
 						System.out.println("INGRESE LA FECHA: dd/mm/aaaa");
 						fecha=teclado.next();
 				
+						ValidarF f4 = new ValidarF();
+						try {
+							f4.Validar(fecha);
+						}
+						catch(ControlFecha ex) {
+							System.out.print("ERROR AL INGRESAR LA FECHA");
+							break;
+						}						
+						
 						System.out.println(" ");
 						System.out.println("SEGUNDO PARTIDO");
 						primerPartido[0] = seleccion[2];
@@ -330,11 +391,17 @@ import java.time.format.DateTimeFormatter;
 						cons3.grabarfases();
 						cons5.grabarfechas();
 						break;
-			default: System.out.println("OPCION NO VALIDA");
+			default: System.out.println("OPCION NO VALIDA, PRESIONE UNA TECLA...");
+						teclado.next();
 						break;
 			}
-			//*******
 		case "d":
+				//BLOQUE DE SENTENCIAS PARA OBTENER EL LISTADO DE LOS GANADORES
+				//LECTURA DE ARCHIVO RESUMIDO CON CAMPOS ID
+				if ((!Files.exists(reducida))|| (!Files.exists(pronosreducido))){
+					System.out.println("AUN NO SE GRABARON LOS PRONOSTICOS NI LOS RESULTADOS DE LOS PARTIDOS");
+					break;
+				}
 				try {
 						for (String leerlista : Files.readAllLines(reducida)) {
 						reducir = String.valueOf(leerlista);
@@ -344,19 +411,19 @@ import java.time.format.DateTimeFormatter;
 							redupronos = String.valueOf(leerlista1);
 						}
 
-						//for(int a=0, a<lista1. )
 				}
 				catch(IOException e) {
 					System.err.print(e);
 				}
+				//EN ESTA ZONA SE COMPARA LOS DATOS DE LOS PRONOSTICOS RESUMIDOS(CON CAMPO CLAVE) Y LOS RESULTADOS RESUMIDOS (CON CAMPO CLAVE)
 				String lista[]=reducir.split(",");
-				List resuoriginal = new ArrayList();
+				List<String> resuoriginal = new ArrayList<String>();
 				for (int re=0;re<lista.length;re++) {
 					resuoriginal.add(lista[re]);
 				}
-				List resultadofinal = new ArrayList();
+				List<String> resultadofinal = new ArrayList<String>();
 				String[] lista1 = redupronos.split(",");
-				List comprobar =new ArrayList();
+				List<String> comprobar =new ArrayList<String>();
 				for (int con=0;con<lista1.length;con++) {
 					comprobar.add(lista1[con]);
 				}
@@ -371,9 +438,8 @@ import java.time.format.DateTimeFormatter;
 						}
 					}
 				}
-				//System.out.println(resultadofinal);
 				rep=0;
-				List resultados = new ArrayList();
+				List<Object> resultados = new ArrayList<Object>();
 				for(int fi=0;fi<resultadofinal.size();fi++) {
 					repnom=resultadofinal.get(fi).toString();
 					for(int fin=0;fin<resultadofinal.size();fin++) {
@@ -389,11 +455,9 @@ import java.time.format.DateTimeFormatter;
 					}
 					rep=0;
 				}
-				//}
 				String grabarnombres = resultados.toString();
 				System.out.println(resultados);
-				System.out.println("PRESIONE LA TECLA A Y LUEGO ENTER PARA CONTINUAR");
-				teclado.next();
+				System.out.println(" ");
 				try {
 					if(!Files.exists(ganador)) {
 						Files.createFile(ganador);
@@ -407,7 +471,7 @@ import java.time.format.DateTimeFormatter;
 		case "e":
 				break;
 		default: 
-				System.out.println("OPCION NO VALIDA, SELECCIONE OTRA");
+				System.out.println("OPCION NO VALIDA...");
 		}
 		System.out.println(" ");
 		if("e".equals(opcion)) {
@@ -416,9 +480,11 @@ import java.time.format.DateTimeFormatter;
 		}
 	}
 }
-	
+//METODO DE CONTROL POR FECHA PARA VERIFICAR QUE TODAVIA SE PUEDEN REALIZAR LAS APUESTAS	
 	public static boolean control(String[]primerPartido, String fecha) {
-		//carfec = LocalDate.format(DateTimeFormatter.ofPattern("d/M/yyyy")).toString();	
+		if(!Files.exists(resultados)){
+			return true;
+		}
 		carfec1 = primerPartido[0]+" "+primerPartido[2];
 		LocalDate dia = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/M/yyyy"));		
 		try {
@@ -433,26 +499,20 @@ import java.time.format.DateTimeFormatter;
 		String cc;
 		for(int i = 0; i<mfecha.length;i++) {
 			fecact = mfecha[i].toString();
-					System.out.println(carfec1+"  "+carfec1.length()+"  carfec1seguro "+fecact+"  "+fecact.length());
-
 				if (carfec1.equals(fecact)) {
 					i++;
 					cc = mfecha[i].toString();
 					cc = cc.substring(1);
-					System.out.println("diadepusfecha1"+dia+"   "+cc);
-					
 						fecha1=LocalDate.parse(cc, DateTimeFormatter.ofPattern("d/M/yyyy"));
 						if (dia.isAfter(fecha1)) {
 							permi=false;
-							System.out.println("YA NO SE PUEDE EFECTUAR UN PRONOSTICO");
+							System.out.println("YA NO SE PUEDE EFECTUAR UN PRONOSTICO, EL PARTIDO YA SE JUGÓ");
 						}else {
 							permi=true;
-							System.out.println("siiiii");
 						}
 					
 				}else {
 					permi=true;
-					System.out.println("siiiii");
 				}
 			
 			}
