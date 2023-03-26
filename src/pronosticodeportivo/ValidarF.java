@@ -6,12 +6,12 @@ public class ValidarF {
 	static LocalDate confecha;
 
 	public ValidarF() {
-		
+
 	}
-	
+
 	public void Validar(String fecha)throws ControlFecha {
 		if (fecha.length()!=10){
-				throw new ControlFecha("Fecha no valida");
+			throw new ControlFecha("Fecha no valida");
 		}
 		try {
 			Integer.parseInt(fecha.substring(0, 2));
@@ -47,7 +47,7 @@ public class ValidarF {
 		}else if((Integer.parseInt(fecha.substring(0,2))>31)&&(Integer.parseInt(fecha.substring(3,5))==12)) {
 			throw new ControlFecha("Fecha no valida");
 		}
-		
+
 	}
-	
+
 }
