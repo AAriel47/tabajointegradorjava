@@ -1,14 +1,10 @@
 package pronosticodeportivo;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+//import java.util.List;
 import java.util.Scanner;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-//
-//import java.text.ParseException;
-//import java.text.SimpleDateFormat;
-//
 import java.nio.file.Path;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -52,16 +48,14 @@ import java.time.format.DateTimeFormatter;
 	static int rep;
 	static String repnom;
 	static String repnom2;
-	//static int resul1;
-	//static int resul2;
 	static String[] zonaselc;
 	
-	static Path fechasPar = Paths.get("fechas.csv");
-	static Path partidos = Paths.get("zonas.csv");
-	static Path resultados = Paths.get("resultado.csv");
-	static Path reducida = Paths.get("resullista.csv");
-	static Path pronosreducido = Paths.get("pronosredu.csv");
-	static Path ganador = Paths.get("ganadoresfinales.csv");
+	static Path fechasPar = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\fechas.csv");
+	static Path partidos = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\zonas.csv");
+	static Path resultados = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\resultado.csv");
+	static Path reducida = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\resullista.csv");
+	static Path pronosreducido = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\pronosredu.csv");
+	static Path ganador = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\ganadoresfinales.csv");
 
 	static String carga;
 	static String carga2;
@@ -70,9 +64,7 @@ import java.time.format.DateTimeFormatter;
 	static String[] segundoPartido = new String[4];
 	static String opcion;
 	public static void main(String[] args){
-	//	
-	//	SimpleDateFormat format = new SimpleDateFormat("MM, dd, yyyy");	
-	//
+
 	Scanner teclado = new Scanner(System.in);
 	while(true) {
 		System.out.println("PRONOSTICO COPA DEL MUNDO 2022 - FECHA DEL PRONOSTICO: "+LocalDate.now()+" "+LocalTime.now());
@@ -81,8 +73,9 @@ import java.time.format.DateTimeFormatter;
 		System.out.println("a. Realizar un pronostico");
 		System.out.println("b. Ver los equipos participantes");
 		System.out.println("c. Ingresar los resultados finales de los partidos");
-		System.out.println("d. Ver los ganadores");
-		System.out.println("e. Salir");
+		System.out.println("d. Ver los ganadores de los pronosticos");
+		System.out.println("e. Ver resultado de los partidos: Perdedor - Ganador - Empate");
+		System.out.println("f. Salir");
 		opcion = teclado.nextLine().toLowerCase();
 		switch(opcion) {
 		case "a": 
@@ -217,13 +210,13 @@ import java.time.format.DateTimeFormatter;
 				permitir1=control(segundoPartido, fecha2);	
 				//OBJETOS QUE PERMITE LA GRABACIÓN DE DATOS
 				if (permitir&&permitir1) {
-					constructor cons1 = new constructor(nombre, zona, primerPartido, segundoPartido);
+					pronostico cons1 = new pronostico(nombre, zona, primerPartido, segundoPartido);
 					cons1.grabar();
-				}else if(permitir) {//System.out.println("permitir");
-					constructor primerpartido = new constructor(segundoPartido,nombre, zona, primerPartido);
+				}else if(permitir) {
+					pronostico primerpartido = new pronostico(segundoPartido,nombre, zona, primerPartido);
 					primerpartido.grabar();
 				}else if(permitir1) {//System.out.println("permitir1");
-					constructor segundopartido = new constructor(primerPartido, segundoPartido, nombre,zona);
+					pronostico segundopartido = new pronostico(primerPartido, segundoPartido, nombre,zona);
 					segundopartido.grabar();
 				}
 				break;
@@ -348,8 +341,8 @@ import java.time.format.DateTimeFormatter;
 						System.out.println("Goles: ");
 						primerPartido[3]=teclado.next();
 						//GRABO LOS RESULTADOS DEL PARTIDO Y CREO OTRO ARCHIVO RESUMIDO PARA CONTROL DEL PROCESO
-						constructor cons2 = new constructor(primerPartido, resulfase, zona);
-						constructor cons4 = new constructor(fecha, primerPartido);
+						Partido cons2 = new Partido(primerPartido, resulfase, zona);
+						Partido cons4 = new Partido(fecha, primerPartido);
 						cons4.grabarfechas();
 						cons2.grabarfases();
 						break;
@@ -386,8 +379,8 @@ import java.time.format.DateTimeFormatter;
 						System.out.println(primerPartido[2]);
 						System.out.println("Goles: ");
 						primerPartido[3]=teclado.next();
-						constructor cons3 = new constructor(resulfase, primerPartido, zona);
-						constructor cons5 = new constructor(fecha, primerPartido);
+						Partido cons3 = new Partido(resulfase, primerPartido, zona);
+						Partido cons5 = new Partido(fecha, primerPartido);
 						cons3.grabarfases();
 						cons5.grabarfechas();
 						break;
@@ -398,83 +391,23 @@ import java.time.format.DateTimeFormatter;
 		case "d":
 				//BLOQUE DE SENTENCIAS PARA OBTENER EL LISTADO DE LOS GANADORES
 				//LECTURA DE ARCHIVO RESUMIDO CON CAMPOS ID
-				if ((!Files.exists(reducida))|| (!Files.exists(pronosreducido))){
-					System.out.println("AUN NO SE GRABARON LOS PRONOSTICOS NI LOS RESULTADOS DE LOS PARTIDOS");
-					break;
-				}
-				try {
-						for (String leerlista : Files.readAllLines(reducida)) {
-						reducir = String.valueOf(leerlista);
-						}
-						
-						for (String leerlista1 : Files.readAllLines(pronosreducido)) {
-							redupronos = String.valueOf(leerlista1);
-						}
-
-				}
-				catch(IOException e) {
-					System.err.print(e);
-				}
-				//EN ESTA ZONA SE COMPARA LOS DATOS DE LOS PRONOSTICOS RESUMIDOS(CON CAMPO CLAVE) Y LOS RESULTADOS RESUMIDOS (CON CAMPO CLAVE)
-				String lista[]=reducir.split(",");
-				List<String> resuoriginal = new ArrayList<String>();
-				for (int re=0;re<lista.length;re++) {
-					resuoriginal.add(lista[re]);
-				}
-				List<String> resultadofinal = new ArrayList<String>();
-				String[] lista1 = redupronos.split(",");
-				List<String> comprobar =new ArrayList<String>();
-				for (int con=0;con<lista1.length;con++) {
-					comprobar.add(lista1[con]);
-				}
-				for(int e = 0; e<resuoriginal.size();e++) {
-					contenido1=resuoriginal.get(e).toString();
-					for(int i = 0;i<comprobar.size();i++) {
-						contenido2=comprobar.get(i).toString();
-						if (contenido1.equals(contenido2)) {
-							i++;
-							ganadores=comprobar.get(i).toString();
-							resultadofinal.add(ganadores);
-						}
-					}
-				}
-				rep=0;
-				List<Object> resultados = new ArrayList<Object>();
-				for(int fi=0;fi<resultadofinal.size();fi++) {
-					repnom=resultadofinal.get(fi).toString();
-					for(int fin=0;fin<resultadofinal.size();fin++) {
-						repnom2=resultadofinal.get(fin).toString();
-						if(repnom.equals(repnom2)) {
-							rep++;
-						}
-					}
-					if(resultados.contains(repnom+" "+rep)) {
-						;
-					}else {
-						resultados.add(repnom+" "+rep);
-					}
-					rep=0;
-				}
-				String grabarnombres = resultados.toString();
-				System.out.println(resultados);
-				System.out.println(" ");
-				try {
-					if(!Files.exists(ganador)) {
-						Files.createFile(ganador);
-					}
-					Files.writeString(ganador, grabarnombres);
-				}
-				catch (IOException e) {
-					System.err.print(e);
-				}
+				Puntaje Puntos = new Puntaje();
+				Puntos.puntajes();
+			
+			
 				break;
 		case "e":
+				Resultado mostrare = new Resultado();
+				mostrare.mostrar();
+				break;
+				
+		case "f":
 				break;
 		default: 
 				System.out.println("OPCION NO VALIDA...");
 		}
 		System.out.println(" ");
-		if("e".equals(opcion)) {
+		if("f".equals(opcion)) {
 			teclado.close();
 			break;
 		}
