@@ -31,12 +31,20 @@ public class pronostico {
 	private String[] primerPar = new String[4];
 	private String[] segundoPar = new String[4];
 	
-	static Path fechasPar = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\fechas.csv");
+	/*static Path fechasPar = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\fechas.csv");
 	static Path partidos = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\zonas.csv");
 	static Path resultados = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\resultado.csv");
 	static Path reducida = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\resullista.csv");
 	static Path pronosreducido = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\pronosredu.csv");
 	static Path ganador = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\ganadoresfinales.csv");
+	*/
+	
+	static Path fechasPar = Paths.get("fechas.csv");
+	static Path partidos = Paths.get("zonas.csv");
+	static Path resultados = Paths.get("resultado.csv");
+	static Path reducida = Paths.get("resullista.csv");
+	static Path pronosreducido = Paths.get("pronosredu.csv");
+	static Path ganador = Paths.get("ganadoresfinales.csv");
 	
 	
 	Path pronostico = Paths.get("pronostico.csv");

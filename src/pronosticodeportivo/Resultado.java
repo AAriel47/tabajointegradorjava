@@ -14,7 +14,13 @@ import java.nio.file.Path;
 public class Resultado {
 	String reducir;
 	
+	/*
 	Path redugana= Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\ganadores.csv");
+	*/
+	
+	Path redugana= Paths.get("ganadores.csv");
+
+	
 	
 	public Resultado() {
 		

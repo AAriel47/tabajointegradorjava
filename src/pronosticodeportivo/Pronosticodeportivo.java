@@ -38,6 +38,9 @@ import java.time.format.DateTimeFormatter;
 	static boolean permitir2;
 	static String reducir;
 	static String redupronos;
+	
+	static String selec;
+	static int selec1;
 
 	static String[] mfecha;
 	static LocalDate fecha1;
@@ -50,13 +53,21 @@ import java.time.format.DateTimeFormatter;
 	static String repnom2;
 	static String[] zonaselc;
 	
-	static Path fechasPar = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\fechas.csv");
+	/*static Path fechasPar = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\fechas.csv");
 	static Path partidos = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\zonas.csv");
 	static Path resultados = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\resultado.csv");
 	static Path reducida = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\resullista.csv");
 	static Path pronosreducido = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\pronosredu.csv");
 	static Path ganador = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\ganadoresfinales.csv");
-
+	 */
+	
+	static Path fechasPar = Paths.get("fechas.csv");
+	static Path partidos = Paths.get("zonas.csv");
+	static Path resultados = Paths.get("resultado.csv");
+	static Path reducida = Paths.get("resullista.csv");
+	static Path pronosreducido = Paths.get("pronosredu.csv");
+	static Path ganador = Paths.get("ganadoresfinales.csv");
+	
 	static String carga;
 	static String carga2;
 	static String[] seleccion=new String[4];
@@ -117,9 +128,24 @@ import java.time.format.DateTimeFormatter;
 				}
 				System.out.println("Zona: "+ zona + Arrays.toString(seleccion));
 				System.out.println(" ");
+				//System.out.println("Seleccione un equipo: 0 -  para el primer, 1, para el segundo,2 para el tercero, y 3 para el cuarto");
+				System.out.println("Seleccione un equipo: 0. " + seleccion[0] + " 1. "+seleccion[1]+" 2. "+seleccion[2]+" 3. "+seleccion[3]);
+
+
+				try {
+					selec = teclado.next();
+					selec1 = Integer.parseInt(selec);
+				}
+				catch (NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}		
+				
+				
 				
 				System.out.println("PRIMER PARTIDO");
-				primerPartido[0] = seleccion[0];
+				primerPartido[0] = seleccion[selec1];
 				System.out.println(primerPartido[0]);
 				System.out.println("Goles: ");
 				primerPartido[1]=teclado.next();
@@ -133,8 +159,27 @@ import java.time.format.DateTimeFormatter;
 					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
 					break;
 				}				
+				//System.out.println("Seleccione un equipo: 0 para el primer, 1, para el segundo,2 para el tercero, y 3 para el cuarto");
+				System.out.println("Seleccione un equipo: 0. " + seleccion[0] + " 1. "+seleccion[1]+" 2. "+seleccion[2]+" 3. "+seleccion[3]);
+
+				try {
+					selec = teclado.next();
+					selec1 = Integer.parseInt(selec);
+				}
+				catch (NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}		
+							
+	
+				primerPartido[2]=seleccion[selec1];
 				
-				primerPartido[2]=seleccion[1];
+				if(primerPartido[0]==(primerPartido)[2]) {
+					System.out.println("ERROR, SELECCIONÓ EL MISMO EQUIPO PARA EL PARTIDO");
+					break;
+				}
+				
 				System.out.println(primerPartido[2]);
 				System.out.println("Goles: ");
 				primerPartido[3]=teclado.next();
@@ -164,7 +209,22 @@ import java.time.format.DateTimeFormatter;
 				permitir = control(primerPartido, fecha);
 				
 				System.out.println("SEGUNDO PARTIDO");
-				segundoPartido[0]=seleccion[2];
+				//System.out.println("Seleccione un equipo: 0 para el primer, 1, para el segundo,2 para el tercero, y 3 para el cuarto");
+		
+				System.out.println("Seleccione un equipo: 0. " + seleccion[0] + " 1. "+seleccion[1]+" 2. "+seleccion[2]+" 3. "+seleccion[3]);
+
+				
+				try {
+					selec = teclado.next();
+					selec1 = Integer.parseInt(selec);
+				}
+				catch (NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}		
+				
+				segundoPartido[0]=seleccion[selec1];
 				System.out.println(segundoPartido[0]);
 				System.out.println("Goles: ");
 				segundoPartido[1]=teclado.next();
@@ -177,9 +237,30 @@ import java.time.format.DateTimeFormatter;
 					System.err.println(ex);
 					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
 					break;
+				}
+				
+				//System.out.println("Seleccione un equipo: 0 para el primer, 1, para el segundo,2 para el tercero, y 3 para el cuarto");
+				System.out.println("Seleccione un equipo: 0. " + seleccion[0] + " 1. "+seleccion[1]+" 2. "+seleccion[2]+" 3. "+seleccion[3]);
+
+
+				try {
+					selec = teclado.next();
+					selec1 = Integer.parseInt(selec);
+				}
+				catch (NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}		
+			
+				
+				segundoPartido[2]=seleccion[selec1];
+				
+				if(segundoPartido[0]==(segundoPartido)[2]) {
+					System.out.println("ERROR, SELECCIONÓ EL MISMO EQUIPO PARA EL PARTIDO");
+					break;
 				}				
 				
-				segundoPartido[2]=seleccion[3];
 				System.out.println(segundoPartido[2]);
 				System.out.println("Goles: ");
 				segundoPartido[3] = teclado.next();
@@ -305,7 +386,7 @@ import java.time.format.DateTimeFormatter;
 				System.out.print(e);
 			}
 			System.out.println("Zona: "+ zona + " "+((Arrays.toString(seleccion))));
-			System.out.println("SELECCIONE: a. PRIMER PARTIDO - b. SEGUNDO PARTIDO");
+			System.out.println("SELECCIONE: a. PRIMER PARTIDO - b. SEGUNDO PARTIDO - C. TERCER PARTIDO - D. CUARTO PARTIDO - E. QUINTO PARTIDO - F. SEXTO PARTIDO");
 			resopc = teclado.next().toLowerCase().substring(0,1);
 			switch (resopc) {
 			case "a" :
@@ -336,10 +417,33 @@ import java.time.format.DateTimeFormatter;
 						System.out.println(primerPartido[0]);
 						System.out.println("Goles: ");
 						primerPartido[1]=teclado.next();
+						
+						try {
+							gol=primerPartido[1];
+							gol2=Integer.parseInt(gol);
+						}
+						catch(NumberFormatException ex) {
+							System.err.println(ex);
+							System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+							break;
+						}
+						
+						
 						primerPartido[2]=seleccion[1];
 						System.out.println(primerPartido[2]);
 						System.out.println("Goles: ");
 						primerPartido[3]=teclado.next();
+						
+						try {
+							gol=primerPartido[3];
+							gol2=Integer.parseInt(gol);
+						}
+						catch(NumberFormatException ex) {
+							System.err.println(ex);
+							System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+							break;
+						}						
+						
 						//GRABO LOS RESULTADOS DEL PARTIDO Y CREO OTRO ARCHIVO RESUMIDO PARA CONTROL DEL PROCESO
 						Partido cons2 = new Partido(primerPartido, resulfase, zona);
 						Partido cons4 = new Partido(fecha, primerPartido);
@@ -375,15 +479,278 @@ import java.time.format.DateTimeFormatter;
 						System.out.println(primerPartido[0]);
 						System.out.println("Goles: ");
 						primerPartido[1]=teclado.next();
+						
+						try {
+							gol=primerPartido[1];
+							gol2=Integer.parseInt(gol);
+						}
+						catch(NumberFormatException ex) {
+							System.err.println(ex);
+							System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+							break;
+						}						
+						
 						primerPartido[2]=seleccion[3];
 						System.out.println(primerPartido[2]);
 						System.out.println("Goles: ");
 						primerPartido[3]=teclado.next();
+						
+						try {
+							gol=primerPartido[3];
+							gol2=Integer.parseInt(gol);
+						}
+						catch(NumberFormatException ex) {
+							System.err.println(ex);
+							System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+							break;
+						}						
+						
 						Partido cons3 = new Partido(resulfase, primerPartido, zona);
 						Partido cons5 = new Partido(fecha, primerPartido);
 						cons3.grabarfases();
 						cons5.grabarfechas();
 						break;
+			case "c" :
+				try {
+					if (!Files.exists(fechasPar)) {
+						Files.createFile(fechasPar);
+					}
+				}
+				catch(IOException e) {
+					System.err.print(e);
+				}
+		
+				System.out.println("INGRESE LA FECHA: dd/mm/aaaa");
+				fecha=teclado.next();
+				//VALIDACION DE LA FECHA (FORMATO FECHA)
+				ValidarF f6 = new ValidarF();
+				try {
+					f6.Validar(fecha);
+				}
+				catch(ControlFecha ex) {
+					System.out.print("ERROR AL INGRESAR LA FECHA");
+					break;
+				}							
+				
+				System.out.println(" ");
+				System.out.println("TERCER PARTIDO");
+				primerPartido[0] = seleccion[0];
+				System.out.println(primerPartido[0]);
+				System.out.println("Goles: ");
+				primerPartido[1]=teclado.next();
+				
+				try {
+					gol=primerPartido[1];
+					gol2=Integer.parseInt(gol);
+				}
+				catch(NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}				
+				
+				primerPartido[2]=seleccion[2];
+				System.out.println(primerPartido[2]);
+				System.out.println("Goles: ");
+				primerPartido[3]=teclado.next();
+				
+				try {
+					gol=primerPartido[3];
+					gol2=Integer.parseInt(gol);
+				}
+				catch(NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}				
+				
+				//GRABO LOS RESULTADOS DEL PARTIDO Y CREO OTRO ARCHIVO RESUMIDO PARA CONTROL DEL PROCESO
+				Partido const2 = new Partido(primerPartido, resulfase, zona);
+				Partido const4 = new Partido(fecha, primerPartido);
+				const4.grabarfechas();
+				const2.grabarfases();
+				break;			
+
+			case "d" :
+				try {
+					if (!Files.exists(fechasPar)) {
+						Files.createFile(fechasPar);
+					}
+				}
+				catch(IOException e) {
+					System.err.print(e);
+				}
+		
+				System.out.println("INGRESE LA FECHA: dd/mm/aaaa");
+				fecha=teclado.next();
+				//VALIDACION DE LA FECHA (FORMATO FECHA)
+				ValidarF f7 = new ValidarF();
+				try {
+					f7.Validar(fecha);
+				}
+				catch(ControlFecha ex) {
+					System.out.print("ERROR AL INGRESAR LA FECHA");
+					break;
+				}							
+				
+				System.out.println(" ");
+				System.out.println("CUARTO PARTIDO");
+				primerPartido[0] = seleccion[1];
+				System.out.println(primerPartido[0]);
+				System.out.println("Goles: ");
+				primerPartido[1]=teclado.next();
+				
+				try {
+					gol=primerPartido[1];
+					gol2=Integer.parseInt(gol);
+				}
+				catch(NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}				
+				
+				primerPartido[2]=seleccion[3];
+				System.out.println(primerPartido[2]);
+				System.out.println("Goles: ");
+				primerPartido[3]=teclado.next();
+				
+				try {
+					gol=primerPartido[3];
+					gol2=Integer.parseInt(gol);
+				}
+				catch(NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}				
+				
+				//GRABO LOS RESULTADOS DEL PARTIDO Y CREO OTRO ARCHIVO RESUMIDO PARA CONTROL DEL PROCESO
+				Partido consta2 = new Partido(primerPartido, resulfase, zona);
+				Partido consta4 = new Partido(fecha, primerPartido);
+				consta4.grabarfechas();
+				consta2.grabarfases();
+				break;
+			case "e" :
+				try {
+					if (!Files.exists(fechasPar)) {
+						Files.createFile(fechasPar);
+					}
+				}
+				catch(IOException e) {
+					System.err.print(e);
+				}
+		
+				System.out.println("INGRESE LA FECHA: dd/mm/aaaa");
+				fecha=teclado.next();
+				//VALIDACION DE LA FECHA (FORMATO FECHA)
+				ValidarF f8 = new ValidarF();
+				try {
+					f8.Validar(fecha);
+				}
+				catch(ControlFecha ex) {
+					System.out.print("ERROR AL INGRESAR LA FECHA");
+					break;
+				}							
+				
+				System.out.println(" ");
+				System.out.println("QUINTO PARTIDO");
+				primerPartido[0] = seleccion[1];
+				System.out.println(primerPartido[0]);
+				System.out.println("Goles: ");
+				primerPartido[1]=teclado.next();
+				
+				try {
+					gol=primerPartido[1];
+					gol2=Integer.parseInt(gol);
+				}
+				catch(NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}				
+				
+				primerPartido[2]=seleccion[3];
+				System.out.println(primerPartido[2]);
+				System.out.println("Goles: ");
+				primerPartido[3]=teclado.next();
+				
+				try {
+					gol=primerPartido[3];
+					gol2=Integer.parseInt(gol);
+				}
+				catch(NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}				
+				
+				//GRABO LOS RESULTADOS DEL PARTIDO Y CREO OTRO ARCHIVO RESUMIDO PARA CONTROL DEL PROCESO
+				Partido consta5 = new Partido(primerPartido, resulfase, zona);
+				Partido consta6 = new Partido(fecha, primerPartido);
+				consta5.grabarfechas();
+				consta6.grabarfases();
+				break;						
+			case "f" :
+				try {
+					if (!Files.exists(fechasPar)) {
+						Files.createFile(fechasPar);
+					}
+				}
+				catch(IOException e) {
+					System.err.print(e);
+				}
+		
+				System.out.println("INGRESE LA FECHA: dd/mm/aaaa");
+				fecha=teclado.next();
+				//VALIDACION DE LA FECHA (FORMATO FECHA)
+				ValidarF f9 = new ValidarF();
+				try {
+					f9.Validar(fecha);
+				}
+				catch(ControlFecha ex) {
+					System.out.print("ERROR AL INGRESAR LA FECHA");
+					break;
+				}							
+				
+				System.out.println(" ");
+				System.out.println("SEXTO PARTIDO");
+				primerPartido[0] = seleccion[0];
+				System.out.println(primerPartido[0]);
+				System.out.println("Goles: ");
+				primerPartido[1]=teclado.next();
+				
+				try {
+					gol=primerPartido[1];
+					gol2=Integer.parseInt(gol);
+				}
+				catch(NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}				
+				
+				primerPartido[2]=seleccion[2];
+				System.out.println(primerPartido[2]);
+				System.out.println("Goles: ");
+				primerPartido[3]=teclado.next();
+				
+				try {
+					gol=primerPartido[3];
+					gol2=Integer.parseInt(gol);
+				}
+				catch(NumberFormatException ex) {
+					System.err.println(ex);
+					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
+					break;
+				}			
+				
+				//GRABO LOS RESULTADOS DEL PARTIDO Y CREO OTRO ARCHIVO RESUMIDO PARA CONTROL DEL PROCESO
+				Partido constan2 = new Partido(primerPartido, resulfase, zona);
+				Partido constan4 = new Partido(fecha, primerPartido);
+				constan4.grabarfechas();
+				constan2.grabarfases();
+				break;						
 			default: System.out.println("OPCION NO VALIDA, PRESIONE UNA TECLA...");
 						teclado.next();
 						break;
