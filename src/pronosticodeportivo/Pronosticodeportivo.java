@@ -86,7 +86,8 @@ import java.time.format.DateTimeFormatter;
 		System.out.println("c. Ingresar los resultados finales de los partidos");
 		System.out.println("d. Ver los ganadores de los pronosticos");
 		System.out.println("e. Ver resultado de los partidos: Perdedor - Ganador - Empate");
-		System.out.println("f. Salir");
+		System.out.println("f. Ver los pronosticos realizados y los puntos");
+		System.out.println("g. Salir");
 		opcion = teclado.nextLine().toLowerCase();
 		switch(opcion) {
 		case "a": 
@@ -690,7 +691,8 @@ import java.time.format.DateTimeFormatter;
 				Partido consta6 = new Partido(fecha, primerPartido);
 				consta5.grabarfechas();
 				consta6.grabarfases();
-				break;						
+				break;
+				
 			case "f" :
 				try {
 					if (!Files.exists(fechasPar)) {
@@ -767,14 +769,18 @@ import java.time.format.DateTimeFormatter;
 				Resultado mostrare = new Resultado();
 				mostrare.mostrar();
 				break;
-				
+		
 		case "f":
+				Participantes parti = new Participantes();
+				parti.mostrar();
+				break;
+		case "g":
 				break;
 		default: 
 				System.out.println("OPCION NO VALIDA...");
 		}
 		System.out.println(" ");
-		if("f".equals(opcion)) {
+		if("g".equals(opcion)) {
 			teclado.close();
 			break;
 		}
