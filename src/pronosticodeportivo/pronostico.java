@@ -25,7 +25,6 @@ public class pronostico {
 	String reducir;
 	String redupronos;
 	private String nombre;
-	//private String mfec;
 	private LocalDate fecha;
 	private LocalTime hora;
 	private String[] primerPar = new String[4];

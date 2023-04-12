@@ -5,11 +5,11 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.List;
 
 public class Participantes {
-
+	static boolean entrar=false;
 	static String reducir;
 	static String contenido1;
 	static String contenido2;
@@ -20,10 +20,15 @@ public class Participantes {
 	static String repnom2;
 	static String nombregana;
 	static String valores;
+	static String [] valor;
 	static String variospronos;
 	static String redupronos;
-	List<Object> resultadofina = new ArrayList<Object>();
-	List<Object>resultadofinal = new ArrayList<Object>();
+	
+	static List<String> resuoriginal = new ArrayList<String>();
+	static List<String> comprobar =new ArrayList<String>();
+
+	static List<Object> resultadofina = new ArrayList<Object>();
+	static List<Object>resultadofinal = new ArrayList<Object>();
 
 
 	public Participantes(){
@@ -65,8 +70,7 @@ public class Participantes {
 						}
 	
 					}
-				//**************************************
-				
+			
 					if ((!Files.exists(reducida))|| (!Files.exists(pronosreducido))){
 						System.out.println("AUN NO SE GRABARON LOS PRONOSTICOS NI LOS RESULTADOS DE LOS PARTIDOS");
 					}else {
@@ -85,13 +89,11 @@ public class Participantes {
 						}
 						//EN ESTA ZONA SE COMPARA LOS DATOS DE LOS PRONOSTICOS RESUMIDOS(CON CAMPO CLAVE) Y LOS RESULTADOS RESUMIDOS (CON CAMPO CLAVE)
 						String lista[]=reducir.split(",");
-						List<String> resuoriginal = new ArrayList<String>();
 						for (int re=0;re<lista.length;re++) {
 							resuoriginal.add(lista[re]);
 						}
 
 						String[] lista1 = redupronos.split(",");
-						List<String> comprobar =new ArrayList<String>();
 						for (int con=0;con<lista1.length;con++) {
 							comprobar.add(lista1[con]);
 						}
@@ -101,26 +103,60 @@ public class Participantes {
 								contenido2=comprobar.get(i).toString();
 								if (contenido1.equals(contenido2)) {
 									i++;
-									ganadores=contenido1+" " +comprobar.get(i).toString()+" GANADOR, ";
+									ganadores=contenido1+" " +comprobar.get(i).toString()+" GANADOR";
 									resultadofina.add(ganadores);
-								}else {
-									i++;
-									perdedores=contenido1+" "+comprobar.get(i).toString()+" PERDEDOR, ";
-									resultadofinal.add(perdedores);
 								}
 							}
 						}
 					}
+					
+					for(int e = 0; e<comprobar.size();e++) {
+						contenido1=comprobar.get(e).toString();
+						for(int i = 0;i<resuoriginal.size();i++) {
+							contenido2=resuoriginal.get(i).toString();
+							if (contenido1.equals(contenido2)) {
+								entrar=false;
+								break;
+							}else {
+								entrar=true;
+							}
+						}
+						e++;
+						if (entrar) {
+							perdedores=contenido1+" "+comprobar.get(e).toString()+" PERDEDOR = 0";
+							resultadofinal.add(perdedores);
+						}
+					}
+							
+					
+					
 					System.out.println(" ");
-					System.out.println("GANADORES: "+resultadofina.toString());
+					System.out.println("GANADORES: ");
+					
+					for(int i=0;i<resultadofina.size();i++) {
+						System.out.println(resultadofina.get(i));
+					}					
+					
+					
 					System.out.println(" ");
-					System.out.println("PERDEDORES: "+resultadofinal.toString());
+					System.out.println("PERDEDORES: ");
+					for(int a = 0; a<resultadofinal.size();a++) {
+						System.out.println(resultadofinal.get(a));
+					}
 					System.out.println(" ");
 
-				//****************************************
-
+					valores = valores.substring(1, valores.length()-1);
+					valor = valores.split(",");
+					
+					List<String> datosgana =new ArrayList<String>();
+					for (int i=0;i<valor.length;i++) {
+						datosgana.add(valor[i].toString());
+					}					
+					
 					System.out.println("PARTICIPANTE - PUNTOS: ");
-					System.out.println(valores);
+					for(int e = 0;e<datosgana.size();e++) {
+						System.out.println(datosgana.get(e));
+					}
 				}
 			}
 		}

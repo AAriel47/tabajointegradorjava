@@ -129,7 +129,6 @@ import java.time.format.DateTimeFormatter;
 				}
 				System.out.println("Zona: "+ zona + Arrays.toString(seleccion));
 				System.out.println(" ");
-				//System.out.println("Seleccione un equipo: 0 -  para el primer, 1, para el segundo,2 para el tercero, y 3 para el cuarto");
 				System.out.println("Seleccione un equipo: 0. " + seleccion[0] + " 1. "+seleccion[1]+" 2. "+seleccion[2]+" 3. "+seleccion[3]);
 
 
@@ -160,7 +159,6 @@ import java.time.format.DateTimeFormatter;
 					System.out.println("VALOR NO NUMERICO, VUELVA A INGRESAR LOS DATOS");
 					break;
 				}				
-				//System.out.println("Seleccione un equipo: 0 para el primer, 1, para el segundo,2 para el tercero, y 3 para el cuarto");
 				System.out.println("Seleccione un equipo: 0. " + seleccion[0] + " 1. "+seleccion[1]+" 2. "+seleccion[2]+" 3. "+seleccion[3]);
 
 				try {
@@ -240,7 +238,6 @@ import java.time.format.DateTimeFormatter;
 					break;
 				}
 				
-				//System.out.println("Seleccione un equipo: 0 para el primer, 1, para el segundo,2 para el tercero, y 3 para el cuarto");
 				System.out.println("Seleccione un equipo: 0. " + seleccion[0] + " 1. "+seleccion[1]+" 2. "+seleccion[2]+" 3. "+seleccion[3]);
 
 
@@ -297,7 +294,7 @@ import java.time.format.DateTimeFormatter;
 				}else if(permitir) {
 					pronostico primerpartido = new pronostico(segundoPartido,nombre, zona, primerPartido);
 					primerpartido.grabar();
-				}else if(permitir1) {//System.out.println("permitir1");
+				}else if(permitir1) {
 					pronostico segundopartido = new pronostico(primerPartido, segundoPartido, nombre,zona);
 					segundopartido.grabar();
 				}
@@ -328,8 +325,6 @@ import java.time.format.DateTimeFormatter;
 						}
 					}
 				}
-				System.out.println("PRESIONE UNA TECLA PARA CONTINUAR");
-				teclado.next();
 				System.out.println(" ");
 
 			}
@@ -343,7 +338,6 @@ import java.time.format.DateTimeFormatter;
 			while(true) {
 
 				System.out.println("SELECCIONE LA FASE POR FAVOR");
-				//System.out.println("1. FASES DE GRUPOS - 2. OCTAVOS DE FINAL - 3. CUARTOS DE FINAL - 4. SEMI-FINAL - 5. FINAL");
 				System.out.println("1. FASES DE GRUPOS ");
 
 				fasopc=teclado.next().toLowerCase();

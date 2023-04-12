@@ -21,7 +21,7 @@ public class ValidarF {
 		catch(NumberFormatException e) {
 			throw new ControlFecha("Fecha no valida");
 		}
-		System.out.print(Integer.parseInt(fecha.substring(0,2))+" - "+Integer.parseInt(fecha.substring(3,5)));
+		//System.out.print(Integer.parseInt(fecha.substring(0,2))+" - "+Integer.parseInt(fecha.substring(3,5)));
 		if((Integer.parseInt(fecha.substring(0,2))>31)&&(Integer.parseInt(fecha.substring(3,5))==1)) {
 			throw new ControlFecha("Fecha no valida");
 		}else if((Integer.parseInt(fecha.substring(0,2))>28)&&(Integer.parseInt(fecha.substring(3,5))==2)) {

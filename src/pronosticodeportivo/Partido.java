@@ -26,12 +26,8 @@ public class Partido {
 	String reducir;
 	String redgan;
 	String redupronos;
-	//private String nombre;
 	private String mfec;
-	//private LocalDate fecha;
-	//private LocalTime hora;
 	private String[] primerPar = new String[4];
-	//private String[] segundoPar = new String[4];
 	
 	/*static Path fechasPar = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\fechas.csv");
 	static Path partidos = Paths.get("C:\\Users\\lucas\\OneDrive\\Escritorio\\Curso Java\\zonas.csv");
@@ -182,7 +178,6 @@ public void grabarfases() {
 							redgan = this.primerPar[0].toString()+" "+this.primerPar[1].toString()+" EMPATE "+this.primerPar[2].toString()+" "+this.primerPar[3].toString()+" EMPATE";
 						}
 					}
-					//System.out.println(reducir);
 
 				Files.writeString(reducida, reducir);
 				Files.writeString(redugana, redgan);
@@ -192,8 +187,6 @@ public void grabarfases() {
 				System.err.print(e);
 			}
 			
-			
-			//---------------
 		}else {
 			System.out.println("RESULTADOS NO SE GUARDARON");
 
